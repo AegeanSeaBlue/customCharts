@@ -1,51 +1,39 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <script src="https://cdn.bootcdn.net/ajax/libs/echarts/5.0.0-rc.1/echarts.min.js"></script>
 </head>
 <meta charset="utf-8">
 <style type="text/css">
 </style>
 <body>
-<div style="width: 800px;height: 600px;border: 1px solid red;" id="chart">
+<div style="width: 700px;height: 600px;border: 1px solid red;" id="chart">
 
 </div>
+<!--<script src="https://cdn.bootcdn.net/ajax/libs/echarts/5.1.1/echarts.js"></script>-->
+<script src="./echarts-test.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/Mock.js/1.0.1-beta3/mock-min.js"></script>
 <script>
 
 let chart = echarts.init(document.getElementById('chart'));
 
-let data = [
-    {
-        name: 'A',
-        value: 10
-    },
-    {
-        name: 'B',
-        value: 20
-    },
-    {
-        name: 'C',
-        value: 30
-    },
-    {
-        name: 'D',
-        value: 10
-    },
-    {
-        name: 'E',
-        value: -20
-    },
-    {
-        name: 'F',
-        value: -40
-    },
-    {
-        name: 'G',
-        value: 20
-    }
-];
+let data = [];
 
-data.push({name: '总计', value: 0});
+
+for (let n = 0; n < 20; n++) {
+    data.push({name: Mock.mock('@date("yyyy-MM-dd")'), value: Mock.mock('@integer(-100, 100)')});
+}
+
+let dataMax = 0, dataMin = 0, sum = 0;
+data.forEach(item => {
+    sum += item.value;
+    if (sum > dataMax) {
+        dataMax = sum;
+    } else if (sum < dataMin) {
+        dataMin = sum;
+    }
+});
+
+data.push({name: '总计', value: sum});
 
 let ph = 0;
 
@@ -56,11 +44,14 @@ let option = {
     tooltip: {},
     xAxis: {
         type: 'category',
-        axisLabel: {}
+        axisLabel: {
+            margin: 20
+        }
     },
     yAxis: {
         type: 'value',
-        max: 80
+        max: dataMax,
+        min: dataMin
     },
     dataset: [
         {source: data}
@@ -74,8 +65,7 @@ let option = {
             y: 'value'
         },
         label: {
-            show: true,
-            position: 'top'
+            show: true
         },
         renderItem: (params, api) => {
             let index = api.value(0);
@@ -83,40 +73,46 @@ let option = {
             let size = api.size([index, val]);
             let coord = api.coord([index, val]);
             //console.log(params, index, val, api.coord([index, val]), api.size([index, val]));
-            console.log(api.style());
+            //console.log(api.style());
             let y;
 
-            if (index === 0) {
-                ph = coord[1];
-                y = ph;
-            } else if (val < 0) {
+            if (index === 0 || index === params.dataInsideLength - 1) {
+                ph = api.coord([0, 0])[1];
+            }
+
+            if (val <= 0) {
                 y = ph;
                 ph += size[1];
             } else {
-                y = ph - size[1];
                 ph -= size[1];
+                y = ph;
             }
-
             return {
                 type: 'rect',
                 shape: {
                     x: coord[0],
                     y,
                     width: 20,
-                    height: index === params.dataInsideLength - 1 ? api.coord([0, 0])[1] - ph : size[1],
+                    height: size[1],
                     r: 2
                 },
                 style: {
                     fill: val >= 0 ? '#0058fb' : '#ef7ef0',
                     text: val,
-                    textPosition: 'top'
+                    textPosition: val < 0 ? 'bottom' : 'top'
                 }
             };
+        },
+        animationDelay: (idx) => {
+            return idx * 100;
         }
     }]
 };
 
 chart.setOption(option);
+setTimeout(() => {
+    console.log(chart.getDataURL());
+}, 2000);
 
 </script>
 </body>
