@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="box" style="width: 800px; height: 600px"></div>
+    <script src="./dist/echarts.js"></script>
+    <script>
+      let chart = echarts.init(document.getElementById("box"));
+      const data = [150, 230, 224, 218, 135, 147, 260].map((v) =>
+        parseInt(Math.random() * 10 * v)
+      );
+      let option = {
+        tooltip: {
+          trigger: "axis",
+        },
+        xAxis: {
+          type: "category",
+          data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+        },
+        yAxis: {
+          type: "value",
+        },
+        series: [
+          {
+            xAxisIndex: 0,
+            yAxisIndex: 0,
+            data: data,
+            type: "line",
+          },
+          // {
+          //   type: "custom",
+          //   xAxisIndex: 0,
+          //   yAxisIndex: 0,
+          //   data: data,
+          //   renderItem: (param, api) => {
+          //     console.log(param, api);
+          //     console.log(api.value(0));
+          //     return null;
+          //   },
+          // },
+        ],
+      };
+      chart.setOption(option);
+      console.log(echarts);
+      setTimeout(() => {
+        let zr = chart.getZr();
+        let circle = new echarts.graphic.Circle({
+          shape: {
+            r: 10,
+            cx: 200,
+            cy: 200,
+          },
+          style: {
+            fill: "#FF6EBE",
+            stroke: "#FF6EBE",
+          },
+          silent: true,
+        });
+
+        zr.add(circle);
+      }, 2000);
+    </script>
+  </body>
+</html>

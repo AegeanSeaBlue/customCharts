@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div style="width: 600px; height: 500px" id="box"></div>
+    <script src="./echarts.min.js"></script>
+    <!-- <script src="./dist/echarts.min.js"></script> -->
+    <!-- <script src="https://cdn.bootcdn.net/ajax/libs/echarts/5.1.2/echarts.min.js"></script> -->
+    <script>
+      let chart = echarts.init(document.getElementById("box"));
+      let option = {
+        legend: {
+          type: "plain",
+          bottom: 0,
+          orient: "horizontal",
+          textStyle: {
+            fontFamily: null,
+            fontSize: 12,
+            color: "#333",
+          },
+          data: ["手机品牌"],
+          show: true,
+          selected: {
+            手机品牌: true,
+          },
+        },
+        grid: {
+          left: 65,
+          top: 20,
+          right: 20,
+          bottom: 55,
+        },
+        xAxis: [
+          {
+            type: "value",
+            scale: false,
+            nameTextStyle: {
+              color: "#333",
+              fontSize: 12,
+            },
+            nameGap: 8,
+            axisLabel: {
+              color: "#333",
+              fontSize: 12,
+              rotate: 0,
+            },
+            axisLine: {
+              lineStyle: {
+                color: "#333",
+                width: 1,
+              },
+            },
+            inverse: false,
+            splitLine: {
+              show: true,
+              lineStyle: {
+                color: "#ddd",
+              },
+            },
+            splitArea: {
+              show: false,
+            },
+          },
+        ],
+        yAxis: [
+          {
+            show: true,
+            type: "category",
+            name: "",
+            nameGap: 8,
+            nameTextStyle: {
+              color: "#333",
+              fontSize: 12,
+            },
+            splitLine: {
+              show: false,
+            },
+            boundaryGap: true,
+            axisLine: {
+              lineStyle: {
+                color: "#333",
+                width: 1,
+              },
+            },
+            axisLabel: {
+              color: "#333",
+              fontSize: 12,
+            },
+            axisTick: {
+              alignWithLabel: true,
+            },
+            data: ["苹果", "三星", "华为", "oppo", "vivo", "小米"],
+          },
+        ],
+        series: [
+          {
+            name: "手机品牌",
+            data: [
+              {
+                value: 187,
+                label: {
+                  show: true,
+                //   color: "inherit",
+                  fontFamily: null,
+                  fontSize: 12,
+                  position: "right",
+                },
+              },
+              {
+                value: 161,
+                label: {
+                  show: true,
+                //   color: "inherit",
+                  fontFamily: null,
+                  fontSize: 12,
+                  position: "right",
+                },
+              },
+              {
+                value: 134,
+                label: {
+                  show: true,
+                //   color: "inherit",
+                  fontFamily: null,
+                  fontSize: 12,
+                  position: "right",
+                },
+              },
+              {
+                value: 96,
+                label: {
+                  show: true,
+                //   color: "inherit",
+                  fontFamily: null,
+                  fontSize: 12,
+                  position: "right",
+                },
+              },
+              {
+                value: 82,
+                label: {
+                  show: true,
+                //   color: "inherit",
+                  fontFamily: null,
+                  fontSize: 12,
+                  position: "right",
+                },
+              },
+              {
+                value: 76,
+                label: {
+                  show: true,
+                //   color: "inherit",
+                  fontFamily: null,
+                  fontSize: 12,
+                  position: "right",
+                },
+              },
+            ],
+            type: "bar",
+            yAxisIndex: 0,
+            barMaxWidth: 16,
+            barMinHeight: 2,
+            itemStyle: {
+              opacity: 1,
+            },
+          },
+        ],
+        tooltip: {
+          show: true,
+          trigger: "axis",
+          confine: false,
+          extraCssText: "",
+          axisPointer: {
+            lineStyle: {},
+          },
+        },
+        color: ["#23b7e5"],
+        visualMap: [
+          {
+            type: "piecewise",
+            show: false,
+            align: "auto",
+            textStyle: {
+              color: "",
+              fontSize: 12,
+            },
+            top: 81,
+            seriesIndex: [0],
+            outOfRange: {
+            //   color: ["#b8e986"],
+            },
+            pieces: [
+              {
+                color: "#f5a623",
+                min: 20,
+                max: 100,
+              },
+            ],
+          },
+        ],
+        textStyle: {},
+        animation: true,
+      };
+      chart.setOption(option);
+    </script>
+  </body>
+</html>
